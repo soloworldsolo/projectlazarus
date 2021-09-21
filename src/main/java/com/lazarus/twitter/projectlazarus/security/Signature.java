@@ -4,19 +4,17 @@ import com.lazarus.twitter.projectlazarus.constant.URLConstants;
 import com.lazarus.twitter.projectlazarus.util.SecurityUtils;
 import org.springframework.http.HttpMethod;
 
-import java.util.Objects;
-
 /**
  * class to generate Oauth signature
  */
 public class Signature {
 
     private Authorization authorization;
-    public String signature;
+    private String signatureString;
 
     public Signature(Authorization authorization) {
         this.authorization = authorization;
-        this.signature = generateSignature();
+        this.signatureString = generateSignature();
 
     }
 
@@ -24,8 +22,8 @@ public class Signature {
         return authorization;
     }
 
-    public String getSignature() {
-        return signature;
+    public String getSignatureString() {
+        return signatureString;
     }
 
     public String generateSignature() {
@@ -33,6 +31,6 @@ public class Signature {
         String signatureBaseString = SecurityUtils.prepareSignatureBaseString(preparedString, HttpMethod.POST.toString(),
                 URLConstants.STATUS_UPDATE);
         String calculateSigningKey = SecurityUtils.calculateSigningKey(authorization);
-        return SecurityUtils.calculateHMAC(signatureBaseString,calculateSigningKey);
+        return SecurityUtils.calculateHMAC(signatureBaseString, calculateSigningKey);
     }
 }

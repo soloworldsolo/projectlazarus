@@ -50,8 +50,7 @@ public class SecurityUtils {
                 .append("&").append("status=").append(percentEncode(authorization.getStatus()));
         String[] input = builder.toString().split("&");
         Arrays.sort(input);
-      String res11=  Arrays.stream(input).collect(Collectors.joining("&"));
-        return res11;
+        return Arrays.stream(input).collect(Collectors.joining("&"));
     }
 
     public static String prepareSignatureBaseString(String paramaterString, String httpMethod, String url) {
@@ -85,14 +84,13 @@ public class SecurityUtils {
         StringBuilder builder = new StringBuilder();
         appendParameter(builder, "oauth_consumer_key", status.getAuthorization().getConsumerKey());
         appendParameter(builder, "oauth_nonce", status.getAuthorization().getOauthNonce());
-        appendParameter(builder, "oauth_signature", status.getSignature());
+        appendParameter(builder, "oauth_signature", status.getSignatureString());
         appendParameter(builder, "oauth_signature_method", status.getAuthorization().getOauthSignatureMethod());
         appendParameter(builder, "oauth_timestamp", status.getAuthorization().getOauthTimeStamp());
         appendParameter(builder, "oauth_token", status.getAuthorization().getTokenKey());
         appendParameter(builder, "oauth_version", status.getAuthorization().getOauthVersion());
 
 
-        System.out.println(builder.toString());
         return builder.substring(0, builder.length() - 1);
 
     }

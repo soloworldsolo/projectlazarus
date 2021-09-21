@@ -42,16 +42,14 @@ public class RestUtil {
     }
 
     public String postStatus(String headers, Signature signature) {
-        String statusURL = STATUS_UPDATE + "?status=" + percentEncode(signature.
-                getAuthorization().getStatus() );
         try {
             HttpClient client = HttpClient.newHttpClient();
-
            var request = java.net.http.HttpRequest.newBuilder()
-                    .uri(new URI(STATUS_UPDATE+"?status="+percentEncode(signature.getAuthorization().getStatus())))
+                    .uri(new
+                            URI(STATUS_UPDATE+"?status="
+                            +percentEncode(signature.getAuthorization().getStatus()) + "&" + "include_entities=true"))
+
                     .header("Authorization" ,"OAuth"+headers)
-                   .header("Content-Type","application/json")
-                   .header("Accept","application/json")
                     .POST(HttpRequest.BodyPublishers.noBody())
                     .build();
             var send = client.send(request, HttpResponse.BodyHandlers.ofString());
