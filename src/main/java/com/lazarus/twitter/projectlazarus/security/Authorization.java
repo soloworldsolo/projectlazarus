@@ -6,11 +6,13 @@ import com.lazarus.twitter.projectlazarus.util.SecurityUtils;
 import java.util.Objects;
 
 public class Authorization {
-    private String oauthCustomerKey;
+    private String consumerKey;
+    private String oauthConsumerSecret;
     private String oauthNonce;
     private String oauthSignatureMethod;
     private String oauthTimeStamp;
-    private String oauthToken;
+    private String tokenKey;
+    private String tokenSecret;
     private String oauthVersion;
     private String status;
 
@@ -22,12 +24,12 @@ public class Authorization {
         this.status = status;
     }
 
-    public String getOauthCustomerKey() {
-        return oauthCustomerKey;
+    public String getConsumerKey() {
+        return consumerKey;
     }
 
-    public void setOauthCustomerKey(String oauthCustomerKey) {
-        this.oauthCustomerKey = oauthCustomerKey;
+    public void setConsumerKey(String consumerKey) {
+        this.consumerKey = consumerKey;
     }
 
     public String getOauthNonce() {
@@ -54,12 +56,28 @@ public class Authorization {
         this.oauthTimeStamp = oauthTimeStamp;
     }
 
-    public String getOauthToken() {
-        return oauthToken;
+    public String getOauthConsumerSecret() {
+        return oauthConsumerSecret;
     }
 
-    public void setOauthToken(String oauthToken) {
-        this.oauthToken = oauthToken;
+    public void setOauthConsumerSecret(String oauthConsumerSecret) {
+        this.oauthConsumerSecret = oauthConsumerSecret;
+    }
+
+    public String getTokenKey() {
+        return tokenKey;
+    }
+
+    public void setTokenKey(String tokenKey) {
+        this.tokenKey = tokenKey;
+    }
+
+    public String getTokenSecret() {
+        return tokenSecret;
+    }
+
+    public void setTokenSecret(String tokenSecret) {
+        this.tokenSecret = tokenSecret;
     }
 
     public String getOauthVersion() {
@@ -70,9 +88,12 @@ public class Authorization {
         this.oauthVersion = oauthVersion;
     }
 
-    public Authorization(String oauthCustomerKey, String oauthToken, String status) {
-        this.oauthCustomerKey = oauthCustomerKey;
-        this.oauthToken = oauthToken;
+    public Authorization(String oauthCustomerKey, String oauthConsumerSecret, String oauthTokenKey,
+                         String oauthTokenSecret, String status) {
+        this.consumerKey = oauthCustomerKey;
+        this.oauthConsumerSecret = oauthConsumerSecret;
+        this.tokenKey = oauthTokenKey;
+        this.tokenSecret = oauthTokenSecret;
         this.status = Objects.requireNonNull(status);
         this.oauthTimeStamp = SecurityUtils.generateTimeStamp();
         this.oauthNonce = SecurityUtils.generateNonce();
