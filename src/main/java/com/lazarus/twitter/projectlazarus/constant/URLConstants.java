@@ -20,6 +20,10 @@ public class URLConstants {
 
     public static final String STATUS_UPDATE = BASE_URL + VERSION_ONE + "/statuses/update.json";
 
+    public static final String DELETE_TWEET = BASE_URL + VERSION_ONE + "/statuses/destroy/";
+
+    public static final String RETWEET = BASE_URL+VERSION_TWO+"/users/";
+
     private URLConstants() {
         throw new AssertionError("cant execute this class");
     }

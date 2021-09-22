@@ -40,18 +40,22 @@ public class SecurityUtils {
 
     public static String prepareParameterString(Authorization authorization) {
         StringBuilder builder = new StringBuilder();
-        builder.append("include_entities=true").
-                append("&").append("oauth_consumer_key=").append(percentEncode(authorization.getConsumerKey())).
-                append("&").append("oauth_nonce=").append(percentEncode(authorization.getOauthNonce()))
-                .append("&").append("oauth_signature_method=").append(percentEncode(authorization.getOauthSignatureMethod()))
-                .append("&").append("oauth_timestamp=").append(percentEncode(authorization.getOauthTimeStamp()))
-                .append("&").append("oauth_token=").append(percentEncode(authorization.getTokenKey()))
-                .append("&").append("oauth_version=").append(percentEncode(authorization.getOauthVersion()))
-                .append("&").append("status=").append(percentEncode(authorization.getStatus()));
-        String[] input = builder.toString().split("&");
+        appendParameterStringParams(builder, "include_entities", authorization.getIncludeEntities());
+        appendParameterStringParams(builder, "oauth_consumer_key", authorization.getConsumerKey());
+        appendParameterStringParams(builder, "oauth_nonce", authorization.getOauthNonce());
+        appendParameterStringParams(builder, "oauth_signature_method", authorization.getOauthSignatureMethod());
+        appendParameterStringParams(builder, "oauth_timestamp", authorization.getOauthTimeStamp());
+        appendParameterStringParams(builder, "oauth_token", authorization.getTokenKey());
+        appendParameterStringParams(builder, "oauth_version", authorization.getOauthVersion());
+        appendParameterStringParams(builder, "status", authorization.getStatus());
+        appendParameterStringParams(builder, "trim_user", authorization.getTrimUser());
+        String inputString = builder.substring(1, builder.length());
+        String[] input = inputString.split("&");
         Arrays.sort(input);
         return Arrays.stream(input).collect(Collectors.joining("&"));
     }
+
+
 
     public static String prepareSignatureBaseString(String paramaterString, String httpMethod, String url) {
         return httpMethod + "&" + percentEncode(url) + "&" + percentEncode(paramaterString);
@@ -98,6 +102,12 @@ public class SecurityUtils {
     private static void appendParameter(StringBuilder buf, String name, String value) {
         if (value != null) {
             buf.append(" ").append(percentEncode(name)).append("=").append('"').append(percentEncode(value)).append("\",");
+        }
+
+    }
+    private static void appendParameterStringParams(StringBuilder buf, String name, String value) {
+        if (value != null) {
+            buf.append("&").append(percentEncode(name)).append("=").append(percentEncode(value));
         }
 
     }

@@ -15,12 +15,22 @@ public class TweetController {
     private TweetService tweetService;
 
     @GetMapping("/tweets/{id}")
-    public Tweet getTweetsById(@PathVariable("id") java.lang.String id) {
+    public Tweet getTweetsById(@PathVariable("id") String id) {
         return tweetService.getTweetsById(Objects.requireNonNull(id));
     }
 
     @PostMapping("/tweet/status")
     public String postStatusUpdate(@RequestBody Status status) {
         return tweetService.updateStatus(status);
+    }
+
+    @DeleteMapping("/tweet/destroy/{id}")
+    public String destroyStatus(@PathVariable("id") String id) {
+        return tweetService.deleteStatus(id);
+    }
+
+    @PostMapping("/tweet/retweet/{id}/{tweetId}")
+    public String reTweet(@PathVariable("id") String id ,@PathVariable("tweetId") String tweetId){
+        return tweetService.reTweet(id,tweetId);
     }
 }

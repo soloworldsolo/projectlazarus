@@ -7,10 +7,12 @@ import com.lazarus.twitter.projectlazarus.security.Authorization;
 import com.lazarus.twitter.projectlazarus.security.Signature;
 import org.apache.commons.codec.digest.HmacAlgorithms;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpMethod;
 
 import java.security.GeneralSecurityException;
 import java.util.Arrays;
 
+import static com.lazarus.twitter.projectlazarus.constant.URLConstants.STATUS_UPDATE;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SecurityUtilsTest {
@@ -39,16 +41,16 @@ class SecurityUtilsTest {
 
     @Test
     void securityTest() {
-        Authorization authorization = new Authorization("xvz1evFS4wEEPTGEFPHBog",
+        Authorization authorization = new Authorization.AuthorizationBuilder("xvz1evFS4wEEPTGEFPHBog",
                 "kAcSOqF21Fu85e7zjz7ZN2U4ZRhfV3WpwPAoE3Z7kBw",
                 "370773112-GmHxMAgYyLbNEtIKZeRNFsMKPR9EyMZeS9weJAEb",
-                "LswwdoUaIvS8ltyTt5jkRh4J50vUPVVHtR2YPi5kE", "Hello Ladies + Gentlemen, a signed OAuth request!");
-        Signature signature = new Signature(authorization);
+                "LswwdoUaIvS8ltyTt5jkRh4J50vUPVVHtR2YPi5kE").
+                withStatus("Hello Ladies + Gentlemen, a signed OAuth request!").withEntities("true").Build();
+        Signature signature = new Signature(authorization, HttpMethod.POST.toString(), STATUS_UPDATE);
         authorization.setOauthNonce("kYjzVBB8Y0ZFabxSWbWovY3uYSQ2pTgmZeNu2VS4cg");
         authorization.setOauthTimeStamp("1318622958");
-        assertEquals("hCtSmYh+iHYCEqBWrE7C7hYmtUk=" ,signature.generateSignature());
+        assertEquals("hCtSmYh+iHYCEqBWrE7C7hYmtUk=", signature.generateSignature());
     }
-
 
 
 }

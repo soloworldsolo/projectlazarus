@@ -1,6 +1,5 @@
 package com.lazarus.twitter.projectlazarus.security;
 
-import com.lazarus.twitter.projectlazarus.constant.URLConstants;
 import com.lazarus.twitter.projectlazarus.util.SecurityUtils;
 import org.springframework.http.HttpMethod;
 
@@ -9,11 +8,15 @@ import org.springframework.http.HttpMethod;
  */
 public class Signature {
 
-    private Authorization authorization;
-    private String signatureString;
+    private final Authorization authorization;
+    private final String signatureString;
+    private final String httpMethod;
+    private final String url;
 
-    public Signature(Authorization authorization) {
+    public Signature(Authorization authorization, String httpMethod, String url) {
         this.authorization = authorization;
+        this.httpMethod = httpMethod;
+        this.url = url;
         this.signatureString = generateSignature();
 
     }
@@ -26,10 +29,14 @@ public class Signature {
         return signatureString;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
     public String generateSignature() {
         String preparedString = SecurityUtils.prepareParameterString(authorization);
         String signatureBaseString = SecurityUtils.prepareSignatureBaseString(preparedString, HttpMethod.POST.toString(),
-                URLConstants.STATUS_UPDATE);
+                url);
         String calculateSigningKey = SecurityUtils.calculateSigningKey(authorization);
         return SecurityUtils.calculateHMAC(signatureBaseString, calculateSigningKey);
     }
