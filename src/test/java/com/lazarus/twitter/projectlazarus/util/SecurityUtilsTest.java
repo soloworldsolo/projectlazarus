@@ -1,16 +1,11 @@
 package com.lazarus.twitter.projectlazarus.util;
 
-import com.google.api.client.auth.oauth.OAuthHmacSha256Signer;
-import com.google.api.client.auth.oauth.OAuthHmacSigner;
-import com.google.api.client.auth.oauth.OAuthParameters;
+
 import com.lazarus.twitter.projectlazarus.security.Authorization;
 import com.lazarus.twitter.projectlazarus.security.Signature;
-import org.apache.commons.codec.digest.HmacAlgorithms;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpMethod;
 
-import java.security.GeneralSecurityException;
-import java.util.Arrays;
 
 import static com.lazarus.twitter.projectlazarus.constant.URLConstants.STATUS_UPDATE;
 import static org.junit.jupiter.api.Assertions.*;
