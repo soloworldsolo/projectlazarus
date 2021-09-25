@@ -57,7 +57,12 @@ public class RestUtil {
                     .build();
             var send = client.send(request, HttpResponse.BodyHandlers.ofString());
             return send.body();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new TwitterException(e.getMessage(), e);
+
         } catch (Exception e) {
+
             throw new TwitterException(e.getMessage(), e);
         }
     }
@@ -74,6 +79,9 @@ public class RestUtil {
                     .build();
             var send = client.send(request, HttpResponse.BodyHandlers.ofString());
             return send.body();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new TwitterException(e.getMessage(), e);
         } catch (Exception e) {
             throw new TwitterException(e.getMessage(), e);
         }
