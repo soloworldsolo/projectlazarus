@@ -28,6 +28,7 @@ public class Authorization {
         this.oauthVersion = SecurityConstants.OAUTH_VERSION_ONE;
         this.oauthSignatureMethod = SecurityConstants.SIGNATURE_METHOD;
         this.id = authorization.id;
+        this.trimUser = authorization.trimUser;
         this.includeEntities = authorization.includeEntities;
     }
 
@@ -165,7 +166,7 @@ public class Authorization {
             return this;
         }
 
-        public Authorization Build() {
+        public Authorization build() {
             return new Authorization(this);
         }
     }

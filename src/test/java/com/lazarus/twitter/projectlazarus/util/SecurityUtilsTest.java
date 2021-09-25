@@ -40,7 +40,7 @@ class SecurityUtilsTest {
                 "kAcSOqF21Fu85e7zjz7ZN2U4ZRhfV3WpwPAoE3Z7kBw",
                 "370773112-GmHxMAgYyLbNEtIKZeRNFsMKPR9EyMZeS9weJAEb",
                 "LswwdoUaIvS8ltyTt5jkRh4J50vUPVVHtR2YPi5kE").
-                withStatus("Hello Ladies + Gentlemen, a signed OAuth request!").withEntities("true").Build();
+                withStatus("Hello Ladies + Gentlemen, a signed OAuth request!").withEntities("true").build();
         Signature signature = new Signature(authorization, HttpMethod.POST.toString(), STATUS_UPDATE);
         authorization.setOauthNonce("kYjzVBB8Y0ZFabxSWbWovY3uYSQ2pTgmZeNu2VS4cg");
         authorization.setOauthTimeStamp("1318622958");

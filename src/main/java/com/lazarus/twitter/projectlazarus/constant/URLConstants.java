@@ -22,7 +22,13 @@ public class URLConstants {
 
     public static final String DELETE_TWEET = BASE_URL + VERSION_ONE + "/statuses/destroy/";
 
-    public static final String RETWEET = BASE_URL+VERSION_TWO+"/users/";
+    public static final String RETWEET = BASE_URL + VERSION_TWO + "/users/";
+
+    public static final String AUTHORIZATION_HEADER = "Authorization";
+
+    public static final String OAUTH_HEADER = "OAuth";
+
+    public static final String APPLICATION_JSON = "application/json";
 
     private URLConstants() {
         throw new AssertionError("cant execute this class");

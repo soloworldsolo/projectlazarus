@@ -17,8 +17,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-import static com.lazarus.twitter.projectlazarus.constant.URLConstants.DELETE_TWEET;
-import static com.lazarus.twitter.projectlazarus.constant.URLConstants.STATUS_UPDATE;
+import static com.lazarus.twitter.projectlazarus.constant.URLConstants.*;
 import static com.lazarus.twitter.projectlazarus.util.SecurityUtils.percentEncode;
 
 /**
@@ -31,7 +30,7 @@ public class RestUtil {
 
     public Tweet getWithoutParameter(String url) {
         MultiValueMap<java.lang.String, java.lang.String> headers = new LinkedMultiValueMap<>();
-        headers.add("Authorization",
+        headers.add(AUTHORIZATION_HEADER,
                 "Bearer b");
         ResponseEntity<String> responseEntity = restTemplate.
                 exchange(url, HttpMethod.GET, new HttpEntity<>(headers), String.class);
@@ -48,7 +47,7 @@ public class RestUtil {
                             URI(STATUS_UPDATE + "?status="
                             + percentEncode(signature.getAuthorization().getStatus()) + "&" + "include_entities=true"))
 
-                    .header("Authorization", "OAuth" + headers)
+                    .header(AUTHORIZATION_HEADER, OAUTH_HEADER + headers)
                     .POST(HttpRequest.BodyPublishers.noBody())
                     .build();
             var send = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -66,7 +65,7 @@ public class RestUtil {
             var request = java.net.http.HttpRequest.newBuilder()
                     .uri(new
                             URI(DELETE_TWEET + signature.getAuthorization().getId() + ".json"))
-                    .header("Authorization", "OAuth" + header)
+                    .header(AUTHORIZATION_HEADER, OAUTH_HEADER + header)
                     .POST(HttpRequest.BodyPublishers.noBody())
                     .build();
             var send = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -79,9 +78,9 @@ public class RestUtil {
 
     public String retweet(String header, Signature signature, String body) {
         MultiValueMap<java.lang.String, java.lang.String> headers = new LinkedMultiValueMap<>();
-        headers.add("Authorization", "OAuth" + header);
-        headers.add("Content-Type", "application/json");
-        headers.add("Accept", "application/json");
+        headers.add(AUTHORIZATION_HEADER, OAUTH_HEADER + header);
+        headers.add("Content-Type", APPLICATION_JSON);
+        headers.add("Accept", APPLICATION_JSON);
         ResponseEntity<String> responseEntity = restTemplate.
                 exchange(signature.getUrl(), HttpMethod.POST, new HttpEntity<>(body, headers), String.class);
         return responseEntity.getBody();
@@ -90,9 +89,9 @@ public class RestUtil {
     public String hideReplies(Signature signature, String header, String body) {
 
         MultiValueMap<java.lang.String, java.lang.String> headers = new LinkedMultiValueMap<>();
-        headers.add("Authorization", "OAuth" + header);
-        headers.add("Content-Type", "application/json");
-        headers.add("Accept", "application/json");
+        headers.add(AUTHORIZATION_HEADER, OAUTH_HEADER + header);
+        headers.add("Content-Type", APPLICATION_JSON);
+        headers.add("Accept", APPLICATION_JSON);
         ResponseEntity<String> responseEntity = restTemplate.
                 exchange(signature.getUrl(), HttpMethod.PUT, new HttpEntity<>(body, headers), String.class);
         return responseEntity.getBody();

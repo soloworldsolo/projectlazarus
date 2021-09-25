@@ -32,7 +32,7 @@ public class TweetService {
     public String updateStatus(Status status) {
         Authorization authorization = new Authorization.AuthorizationBuilder(status.getConsumerKey(), status.getConsumerSecret(),
                 status.getTokenKey(),
-                status.getTokenSecret()).withStatus(status.getText()).withEntities("true").Build();
+                status.getTokenSecret()).withStatus(status.getText()).withEntities("true").build();
         Signature signature = new Signature(authorization, HttpMethod.POST.toString(), STATUS_UPDATE);
         String header = SecurityUtils.getAuthorizationHeader(signature);
         return restUtil.postStatus(header, signature);
@@ -43,7 +43,7 @@ public class TweetService {
                 "y",
                 "z",
                 "g"
-        ).ofId(id).Build(), HttpMethod.POST.toString(), DELETE_TWEET + id + ".json");
+        ).ofId(id).build(), HttpMethod.POST.toString(), DELETE_TWEET + id + ".json");
         String header = SecurityUtils.getAuthorizationHeader(signature);
 
         return restUtil.destroyStatus(header, signature);
@@ -54,7 +54,7 @@ public class TweetService {
                 "b",
                 "c",
                 "d"
-        ).ofId(id).Build(), HttpMethod.POST.toString(), RETWEET + id + "/retweets");
+        ).ofId(id).build(), HttpMethod.POST.toString(), RETWEET + id + "/retweets");
 
         String header = SecurityUtils.getAuthorizationHeader(signature);
         String body = new MapperUtils().convertObjectToString(new TweetRequest(tweetId));
@@ -63,7 +63,7 @@ public class TweetService {
 
     public String hideReplies(String id, Status status) {
         Signature signature = new Signature(new Authorization.AuthorizationBuilder(status.getConsumerKey(),status.getConsumerSecret(),
-                status.getTokenKey(),status.getTokenSecret()).ofId(id).Build(),HttpMethod.PUT.toString(),TWEETS_ID+id+"/hidden");
+                status.getTokenKey(),status.getTokenSecret()).ofId(id).build(),HttpMethod.PUT.toString(),TWEETS_ID+id+"/hidden");
         String header = SecurityUtils.getAuthorizationHeader(signature);
         Map<String,Boolean> map = new HashMap<>();
         map.put("hidden",true);
