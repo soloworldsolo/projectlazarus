@@ -50,7 +50,7 @@ public class TweetService implements ITweetService {
         return restUtil.destroyStatus(header, signature);
     }
 
-    public String reTweet(String id, String tweetId) {
+    public String reTweet(String id, String tweetId) throws TwitterException{
         Signature signature = new Signature(new Authorization.AuthorizationBuilder("a",
                 "b",
                 "c",
@@ -62,7 +62,7 @@ public class TweetService implements ITweetService {
         return restUtil.retweet(header, signature, body);
     }
 
-    public String hideReplies(String id, Status status) {
+    public String hideReplies(String id, Status status) throws TwitterException{
         Signature signature = new Signature(new Authorization.AuthorizationBuilder(status.getConsumerKey(),status.getConsumerSecret(),
                 status.getTokenKey(),status.getTokenSecret()).ofId(id).build(),HttpMethod.PUT.toString(),TWEETS_ID+id+"/hidden");
         String header = SecurityUtils.getAuthorizationHeader(signature);

@@ -87,7 +87,7 @@ public class RestUtil {
         }
     }
 
-    public String retweet(String header, Signature signature, String body) {
+    public String retweet(String header, Signature signature, String body) throws TwitterException{
         MultiValueMap<java.lang.String, java.lang.String> headers = new LinkedMultiValueMap<>();
         headers.add(AUTHORIZATION_HEADER, OAUTH_HEADER + header);
         headers.add("Content-Type", APPLICATION_JSON);
@@ -97,7 +97,7 @@ public class RestUtil {
         return responseEntity.getBody();
     }
 
-    public String hideReplies(Signature signature, String header, String body) {
+    public String hideReplies(Signature signature, String header, String body) throws TwitterException {
 
         MultiValueMap<java.lang.String, java.lang.String> headers = new LinkedMultiValueMap<>();
         headers.add(AUTHORIZATION_HEADER, OAUTH_HEADER + header);

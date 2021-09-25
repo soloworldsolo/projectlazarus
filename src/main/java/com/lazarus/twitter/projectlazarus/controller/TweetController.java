@@ -2,7 +2,6 @@ package com.lazarus.twitter.projectlazarus.controller;
 
 import com.lazarus.twitter.projectlazarus.exception.TwitterException;
 import com.lazarus.twitter.projectlazarus.model.Status;
-import com.lazarus.twitter.projectlazarus.model.Tweet;
 import com.lazarus.twitter.projectlazarus.service.TweetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,11 +18,11 @@ public class TweetController {
     private TweetService tweetService;
 
     @GetMapping("/tweets/{id}")
-    public  ResponseEntity getTweetsById(@PathVariable("id") String id)  {
+    public ResponseEntity getTweetsById(@PathVariable("id") String id) {
         try {
             return ResponseEntity.ok().body(tweetService.getTweetsById(Objects.requireNonNull(id)));
 
-        }catch (TwitterException e) {
+        } catch (TwitterException e) {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
@@ -49,11 +48,19 @@ public class TweetController {
 
     @PostMapping("/tweet/retweet/{id}/{tweetId}")
     public ResponseEntity<String> reTweet(@PathVariable("id") String id, @PathVariable("tweetId") String tweetId) {
-        return ResponseEntity.ok().body(tweetService.reTweet(id, tweetId));
+        try {
+            return ResponseEntity.ok().body(tweetService.reTweet(id, tweetId));
+        } catch (TwitterException e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
     }
 
     @PutMapping("/tweet/hidereply/{id}")
     public ResponseEntity<String> hideReplies(@PathVariable("id") String id, @RequestBody Status status) {
-        return ResponseEntity.ok().body(tweetService.hideReplies(id, status));
+        try {
+            return ResponseEntity.ok().body(tweetService.hideReplies(id, status));
+        } catch (TwitterException e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
     }
 }
