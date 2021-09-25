@@ -5,9 +5,13 @@ import com.lazarus.twitter.projectlazarus.model.Status;
 import com.lazarus.twitter.projectlazarus.model.Tweet;
 
 public interface ITweetService {
-    public Tweet getTweetsById(String id) throws TwitterException;
+    Tweet getTweetsById(String id) throws TwitterException;
 
-    public String updateStatus(Status status) throws TwitterException;
+    String updateStatus(Status status) throws TwitterException;
 
+    String reTweet(String id, String tweetId) throws TwitterException;
 
+    String hideReplies(String id, Status status) throws TwitterException;
+
+    String deleteStatus(String id) throws TwitterException;
 }

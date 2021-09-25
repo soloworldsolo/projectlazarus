@@ -23,13 +23,15 @@ import static com.lazarus.twitter.projectlazarus.constant.URLConstants.*;
 public class TweetService implements ITweetService {
     @Autowired
     private RestUtil restUtil;
+
     @Override
-    public Tweet getTweetsById(String id) throws TwitterException{
+    public Tweet getTweetsById(String id) throws TwitterException {
         String url = TWEETS_ID + id;
         return restUtil.getWithoutParameter(url);
 
     }
-@Override
+
+    @Override
     public String updateStatus(Status status) throws TwitterException {
         Authorization authorization = new Authorization.AuthorizationBuilder(status.getConsumerKey(), status.getConsumerSecret(),
                 status.getTokenKey(),
@@ -50,7 +52,8 @@ public class TweetService implements ITweetService {
         return restUtil.destroyStatus(header, signature);
     }
 
-    public String reTweet(String id, String tweetId) throws TwitterException{
+    @Override
+    public String reTweet(String id, String tweetId) throws TwitterException {
         Signature signature = new Signature(new Authorization.AuthorizationBuilder("a",
                 "b",
                 "c",
@@ -62,14 +65,15 @@ public class TweetService implements ITweetService {
         return restUtil.retweet(header, signature, body);
     }
 
-    public String hideReplies(String id, Status status) throws TwitterException{
-        Signature signature = new Signature(new Authorization.AuthorizationBuilder(status.getConsumerKey(),status.getConsumerSecret(),
-                status.getTokenKey(),status.getTokenSecret()).ofId(id).build(),HttpMethod.PUT.toString(),TWEETS_ID+id+"/hidden");
+    @Override
+    public String hideReplies(String id, Status status) throws TwitterException {
+        Signature signature = new Signature(new Authorization.AuthorizationBuilder(status.getConsumerKey(), status.getConsumerSecret(),
+                status.getTokenKey(), status.getTokenSecret()).ofId(id).build(), HttpMethod.PUT.toString(), TWEETS_ID + id + "/hidden");
         String header = SecurityUtils.getAuthorizationHeader(signature);
-        Map<String,Boolean> map = new HashMap<>();
-        map.put("hidden",true);
+        Map<String, Boolean> map = new HashMap<>();
+        map.put("hidden", true);
         String body = new MapperUtils().convertMapToString(map);
 
-        return restUtil.hideReplies(signature,header,body);
+        return restUtil.hideReplies(signature, header, body);
     }
 }
