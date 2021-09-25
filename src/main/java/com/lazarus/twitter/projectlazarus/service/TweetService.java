@@ -39,10 +39,10 @@ public class TweetService {
     }
 
     public String deleteStatus(String id) {
-        Signature signature = new Signature(new Authorization.AuthorizationBuilder("uh1yn1l86iteZsI9Ha3itXccf",
-                "SkDUvZF5ZeWpRYccaO6c7ael5HF5q7pwCgzGXG4fxImLw5mLuq",
-                "85558968-SuHkQsja7iTmzU4PBtxSUuDVlknvHi6ORvQT6ks1r",
-                "0HF0Q9nEJ1ixt5JBE7Of5MWcoMNaIx22ZI2ZTwCI2K66N"
+        Signature signature = new Signature(new Authorization.AuthorizationBuilder("x",
+                "y",
+                "z",
+                "g"
         ).ofId(id).Build(), HttpMethod.POST.toString(), DELETE_TWEET + id + ".json");
         String header = SecurityUtils.getAuthorizationHeader(signature);
 
@@ -50,10 +50,10 @@ public class TweetService {
     }
 
     public String reTweet(String id, String tweetId) {
-        Signature signature = new Signature(new Authorization.AuthorizationBuilder("uh1yn1l86iteZsI9Ha3itXccf",
-                "SkDUvZF5ZeWpRYccaO6c7ael5HF5q7pwCgzGXG4fxImLw5mLuq",
-                "85558968-SuHkQsja7iTmzU4PBtxSUuDVlknvHi6ORvQT6ks1r",
-                "0HF0Q9nEJ1ixt5JBE7Of5MWcoMNaIx22ZI2ZTwCI2K66N"
+        Signature signature = new Signature(new Authorization.AuthorizationBuilder("a",
+                "b",
+                "c",
+                "d"
         ).ofId(id).Build(), HttpMethod.POST.toString(), RETWEET + id + "/retweets");
 
         String header = SecurityUtils.getAuthorizationHeader(signature);
