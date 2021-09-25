@@ -1,6 +1,7 @@
 package com.lazarus.twitter.projectlazarus.util;
 
 
+import com.lazarus.twitter.projectlazarus.exception.TwitterException;
 import com.lazarus.twitter.projectlazarus.model.Tweet;
 import com.lazarus.twitter.projectlazarus.security.Signature;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,18 +29,22 @@ public class RestUtil {
     @Autowired
     RestTemplate restTemplate;
 
-    public Tweet getWithoutParameter(String url) {
+    public Tweet getWithoutParameter(String url) throws TwitterException {
         MultiValueMap<java.lang.String, java.lang.String> headers = new LinkedMultiValueMap<>();
         headers.add(AUTHORIZATION_HEADER,
                 "Bearer b");
-        ResponseEntity<String> responseEntity = restTemplate.
-                exchange(url, HttpMethod.GET, new HttpEntity<>(headers), String.class);
-        String res = responseEntity.getBody();
+        try {
+            var responseEntity = restTemplate.
+                    exchange(url, HttpMethod.GET, new HttpEntity<>(headers), String.class);
+            return new MapperUtils().convertToObject(responseEntity.getBody(), "/data", Tweet.class);
 
-        return new MapperUtils().convertToObject(res, "/data", Tweet.class);
+        } catch (Exception e) {
+            throw new TwitterException(e.getMessage(), e);
+        }
+
     }
 
-    public String postStatus(String headers, Signature signature) {
+    public String postStatus(String headers, Signature signature) throws TwitterException {
         try {
             HttpClient client = HttpClient.newHttpClient();
             var request = java.net.http.HttpRequest.newBuilder()
@@ -53,12 +58,11 @@ public class RestUtil {
             var send = client.send(request, HttpResponse.BodyHandlers.ofString());
             return send.body();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new TwitterException(e.getMessage(), e);
         }
-        return "Failed";
     }
 
-    public String destroyStatus(String header, Signature signature) {
+    public String destroyStatus(String header, Signature signature) throws TwitterException {
 
         try {
             HttpClient client = HttpClient.newHttpClient();
@@ -71,9 +75,8 @@ public class RestUtil {
             var send = client.send(request, HttpResponse.BodyHandlers.ofString());
             return send.body();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new TwitterException(e.getMessage(), e);
         }
-        return "Failed";
     }
 
     public String retweet(String header, Signature signature, String body) {

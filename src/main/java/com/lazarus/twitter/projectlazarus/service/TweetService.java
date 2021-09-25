@@ -1,5 +1,6 @@
 package com.lazarus.twitter.projectlazarus.service;
 
+import com.lazarus.twitter.projectlazarus.exception.TwitterException;
 import com.lazarus.twitter.projectlazarus.model.Status;
 import com.lazarus.twitter.projectlazarus.model.Tweet;
 import com.lazarus.twitter.projectlazarus.model.TweetRequest;
@@ -19,17 +20,17 @@ import static com.lazarus.twitter.projectlazarus.constant.URLConstants.*;
 
 
 @Service
-public class TweetService {
+public class TweetService implements ITweetService {
     @Autowired
     private RestUtil restUtil;
-
-    public Tweet getTweetsById(java.lang.String id) {
+    @Override
+    public Tweet getTweetsById(String id) throws TwitterException{
         String url = TWEETS_ID + id;
         return restUtil.getWithoutParameter(url);
 
     }
-
-    public String updateStatus(Status status) {
+@Override
+    public String updateStatus(Status status) throws TwitterException {
         Authorization authorization = new Authorization.AuthorizationBuilder(status.getConsumerKey(), status.getConsumerSecret(),
                 status.getTokenKey(),
                 status.getTokenSecret()).withStatus(status.getText()).withEntities("true").build();
@@ -38,7 +39,7 @@ public class TweetService {
         return restUtil.postStatus(header, signature);
     }
 
-    public String deleteStatus(String id) {
+    public String deleteStatus(String id) throws TwitterException {
         Signature signature = new Signature(new Authorization.AuthorizationBuilder("x",
                 "y",
                 "z",
