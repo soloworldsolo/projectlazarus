@@ -34,8 +34,18 @@ jobs:
       - name: Build with Maven
         run:  mvn --batch-mode --update-snapshots verify
         
-      - name: SonarQube Scan
-        uses: kitabisa/sonarqube-action@v1.1.0
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+        
+      - name: Build and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=soloworldsolo_projectlazarus
 
       # Runs a set of commands using the runners shell
 
