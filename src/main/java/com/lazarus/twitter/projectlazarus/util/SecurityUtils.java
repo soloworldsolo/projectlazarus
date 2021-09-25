@@ -111,4 +111,8 @@ public class SecurityUtils {
         }
 
     }
+
+    private SecurityUtils() {
+        throw new AssertionError("illegal access to class");
+    }
 }

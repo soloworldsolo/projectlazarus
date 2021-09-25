@@ -5,4 +5,9 @@ public class SecurityConstants {
     public static final String SIGNATURE_METHOD = "HMAC-SHA1";
     public static final String HMAC_SHA1_ALGORITHM = "HmacSHA1";
 
+
+    private SecurityConstants() {
+        throw new AssertionError("illegal access of private construtor ");
+    }
+
 }
