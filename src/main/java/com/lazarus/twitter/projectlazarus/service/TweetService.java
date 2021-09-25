@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static com.lazarus.twitter.projectlazarus.constant.URLConstants.*;
 
 
@@ -56,5 +59,16 @@ public class TweetService {
         String header = SecurityUtils.getAuthorizationHeader(signature);
         String body = new MapperUtils().convertObjectToString(new TweetRequest(tweetId));
         return restUtil.retweet(header, signature, body);
+    }
+
+    public String hideReplies(String id, Status status) {
+        Signature signature = new Signature(new Authorization.AuthorizationBuilder(status.getConsumerKey(),status.getConsumerSecret(),
+                status.getTokenKey(),status.getTokenSecret()).ofId(id).Build(),HttpMethod.PUT.toString(),TWEETS_ID+id+"/hidden");
+        String header = SecurityUtils.getAuthorizationHeader(signature);
+        Map<String,Boolean> map = new HashMap<>();
+        map.put("hidden",true);
+        String body = new MapperUtils().convertMapToString(map);
+
+        return restUtil.hideReplies(signature,header,body);
     }
 }

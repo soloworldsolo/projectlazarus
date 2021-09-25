@@ -35,7 +35,7 @@ public class Signature {
 
     public String generateSignature() {
         String preparedString = SecurityUtils.prepareParameterString(authorization);
-        String signatureBaseString = SecurityUtils.prepareSignatureBaseString(preparedString, HttpMethod.POST.toString(),
+        String signatureBaseString = SecurityUtils.prepareSignatureBaseString(preparedString, this.httpMethod,
                 url);
         String calculateSigningKey = SecurityUtils.calculateSigningKey(authorization);
         return SecurityUtils.calculateHMAC(signatureBaseString, calculateSigningKey);

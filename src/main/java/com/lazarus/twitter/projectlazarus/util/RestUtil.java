@@ -86,4 +86,15 @@ public class RestUtil {
                 exchange(signature.getUrl(), HttpMethod.POST, new HttpEntity<>(body, headers), String.class);
         return responseEntity.getBody();
     }
+
+    public String hideReplies(Signature signature, String header, String body) {
+
+        MultiValueMap<java.lang.String, java.lang.String> headers = new LinkedMultiValueMap<>();
+        headers.add("Authorization", "OAuth" + header);
+        headers.add("Content-Type", "application/json");
+        headers.add("Accept", "application/json");
+        ResponseEntity<String> responseEntity = restTemplate.
+                exchange(signature.getUrl(), HttpMethod.PUT, new HttpEntity<>(body, headers), String.class);
+        return responseEntity.getBody();
+    }
 }

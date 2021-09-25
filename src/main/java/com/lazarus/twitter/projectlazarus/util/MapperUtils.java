@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -37,4 +38,12 @@ public class MapperUtils {
     }
 
 
+    public <K,V>String convertMapToString(Map<K, V> map) {
+        try {
+            return objectMapper.writeValueAsString(Objects.requireNonNull(map));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

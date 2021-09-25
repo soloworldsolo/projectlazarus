@@ -33,4 +33,9 @@ public class TweetController {
     public String reTweet(@PathVariable("id") String id ,@PathVariable("tweetId") String tweetId){
         return tweetService.reTweet(id,tweetId);
     }
+
+    @PutMapping("/tweet/hidereply/{id}")
+    public String hideReplies(@PathVariable("id") String id ,@RequestBody Status status){
+        return tweetService.hideReplies(id ,status);
+    }
 }
